@@ -1,0 +1,31 @@
+# databricks.yml — BMA Genie Teams Bot
+# This bundle packages the bot code for deployment to Azure Web App.
+# The DAB manages the Databricks-side config; Azure infra is handled
+# separately (see src/infra/ for Terraform or manual steps in README).
+
+bundle:
+  name: bma_genie_teams_bot
+
+variables:
+  genie_space_id:
+    description: "Genie Space ID (from the Genie Space URL)"
+    default: "01f11271f3d41201af68388818cca110"
+  warehouse_id:
+    description: "SQL Warehouse ID for Genie queries"
+    default: "5eb73ca40f08c607"
+  workspace_host:
+    description: "Databricks workspace host URL"
+    default: "https://dbc-7749e812-1ece.cloud.databricks.com/"
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-7749e812-1ece.cloud.databricks.com/
+
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-7749e812-1ece.cloud.databricks.com/
+      root_path: /Shared/.bundle/prod/${bundle.name}

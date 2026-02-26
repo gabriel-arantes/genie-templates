@@ -1,0 +1,6 @@
+.venv
+.bundle
+__pycache__
+.pytest_cache
+.databricks
+*.egg-info

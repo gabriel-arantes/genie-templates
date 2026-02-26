@@ -1,0 +1,38 @@
+# databricks.yml — BMA Genie Benchmark Job
+# Scheduled job that runs benchmark questions against the Genie Space,
+# evaluates accuracy, and writes results to a Unity Catalog table.
+
+bundle:
+  name: bma_genie_benchmark
+
+variables:
+  genie_space_id:
+    description: "Genie Space ID"
+    default: "01f11271f3d41201af68388818cca110"
+  catalog:
+    description: "Unity Catalog catalog"
+    default: "bma_pilot"
+  schema:
+    description: "Unity Catalog schema"
+    default: "genie_ready"
+  warehouse_id:
+    description: "SQL Warehouse ID"
+    default: "5eb73ca40f08c607"
+  workspace_host:
+    description: "Databricks workspace host"
+    default: "https://dbc-7749e812-1ece.cloud.databricks.com/"
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-7749e812-1ece.cloud.databricks.com/
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-7749e812-1ece.cloud.databricks.com/
+      root_path: /Shared/.bundle/prod/${bundle.name}

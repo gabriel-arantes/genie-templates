@@ -1,0 +1,46 @@
+# databricks.yml — BMA Genie Databricks App (Gradio)
+# Deploys a Databricks App with Genie Space as a resource.
+# The app provides a chat interface + data table + chart visualization.
+
+bundle:
+  name: bma_genie_app
+
+variables:
+  genie_space_id:
+    description: "Genie Space ID"
+    default: "01f11271f3d41201af68388818cca110"
+  warehouse_id:
+    description: "SQL Warehouse ID"
+    default: "5eb73ca40f08c607"
+  workspace_host:
+    description: "Databricks workspace host"
+    default: "https://dbc-7749e812-1ece.cloud.databricks.com/"
+
+resources:
+  apps:
+    bma_genie_app:
+      name: "bma-genie-cpi-explorer"
+      description: "CPI Data Explorer powered by Databricks Genie"
+      source_code_path: ./src
+      resources:
+        - name: genie-space
+          genie_space:
+            space_id: ${var.genie_space_id}
+            name: "BMA CPI Genie Space"
+            permission: CAN_MANAGE
+        - name: sql-warehouse
+          sql_warehouse:
+            id: ${var.warehouse_id}
+            permission: CAN_USE
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-7749e812-1ece.cloud.databricks.com/
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-7749e812-1ece.cloud.databricks.com/
+      root_path: /Shared/.bundle/prod/${bundle.name}

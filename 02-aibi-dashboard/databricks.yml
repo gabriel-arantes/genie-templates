@@ -1,0 +1,38 @@
+# databricks.yml — BMA AI/BI Dashboard with Ask Genie
+# Deploys a Lakeview Dashboard that visualizes CPI data and enables
+# Ask Genie for ad-hoc natural-language follow-up questions.
+
+bundle:
+  name: bma_genie_aibi_dashboard
+
+variables:
+  genie_space_id:
+    description: "Genie Space ID"
+    default: "01f11271f3d41201af68388818cca110"
+  warehouse_id:
+    description: "SQL Warehouse ID"
+    default: "5eb73ca40f08c607"
+  catalog:
+    description: "Unity Catalog catalog name"
+    default: "bma_pilot"
+  schema:
+    description: "Unity Catalog schema name"
+    default: "genie_ready"
+  workspace_host:
+    description: "Databricks workspace host"
+    default: "https://dbc-7749e812-1ece.cloud.databricks.com/"
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-7749e812-1ece.cloud.databricks.com/
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-7749e812-1ece.cloud.databricks.com/
+      root_path: /Shared/.bundle/prod/${bundle.name}

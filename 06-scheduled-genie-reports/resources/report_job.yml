@@ -1,0 +1,24 @@
+# resources/report_job.yml
+resources:
+  jobs:
+    bma_genie_weekly_report:
+      name: "[BMA] Genie CPI Weekly Report"
+      description: >
+        Queries the Genie Space with predefined business questions,
+        generates an HTML report, and saves it to a UC Volume.
+      schedule:
+        quartz_cron_expression: "0 0 7 ? * MON"  # Every Monday 7:00 UTC
+        timezone_id: "Atlantic/Bermuda"
+      tasks:
+        - task_key: generate_report
+          notebook_task:
+            notebook_path: ../src/generate_report.py
+            base_parameters:
+              GENIE_SPACE_ID: ${var.genie_space_id}
+              CATALOG: ${var.catalog}
+              SCHEMA: ${var.schema}
+      email_notifications:
+        on_success:
+          - ${var.report_recipients}
+        on_failure:
+          - ${var.report_recipients}

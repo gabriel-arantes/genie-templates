@@ -1,0 +1,41 @@
+# databricks.yml — BMA LangGraph Agent with Genie as a Tool
+# Deploys a LangGraph-based agent that uses GenieAgent from databricks_langchain
+# to answer questions about CPI data. Logged via MLflow and served on Model Serving.
+
+bundle:
+  name: bma_genie_langgraph_agent
+
+variables:
+  genie_space_id:
+    description: "Genie Space ID"
+    default: "01f11271f3d41201af68388818cca110"
+  catalog:
+    description: "Unity Catalog catalog"
+    default: "bma_pilot"
+  schema:
+    description: "Unity Catalog schema for MLflow models"
+    default: "genie_ready"
+  llm_endpoint:
+    description: "Foundation Model API endpoint"
+    default: "databricks-meta-llama-3-3-70b-instruct"
+  warehouse_id:
+    description: "SQL Warehouse ID"
+    default: "5eb73ca40f08c607"
+  workspace_host:
+    description: "Databricks workspace host"
+    default: "https://dbc-7749e812-1ece.cloud.databricks.com/"
+
+include:
+  - resources/*.yml
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://dbc-7749e812-1ece.cloud.databricks.com/
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-7749e812-1ece.cloud.databricks.com/
+      root_path: /Shared/.bundle/prod/${bundle.name}
