@@ -1,8 +1,8 @@
 # resources/agent_deploy_job.yml
 resources:
   jobs:
-    bma_agent_deploy:
-      name: "[BMA] Log & Deploy CPI Genie Agent"
+    my_agent_deploy:
+      name: "[Acme] Log & Deploy CPI Genie Agent"
       description: "Logs the LangGraph agent to MLflow, registers in UC, and deploys to Model Serving."
       tasks:
         - task_key: log_and_deploy

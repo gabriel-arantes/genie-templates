@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # BMA CPI LangGraph Agent — Log, Register & Deploy
+# MAGIC # Acme CPI LangGraph Agent — Log, Register & Deploy
 # MAGIC
 # MAGIC This notebook:
 # MAGIC 1. Logs the LangGraph agent to MLflow
@@ -23,9 +23,9 @@ import mlflow
 # Configuration — update these
 GENIE_SPACE_ID = "01f11271f3d41201af68388818cca110"
 LLM_ENDPOINT = "databricks-meta-llama-3-3-70b-instruct"
-CATALOG = "bma_pilot"
+CATALOG = "my_catalog"
 SCHEMA = "genie_ready"
-MODEL_NAME = f"{CATALOG}.{SCHEMA}.bma_cpi_genie_agent"
+MODEL_NAME = f"{CATALOG}.{SCHEMA}.my_cpi_genie_agent"
 
 os.environ["GENIE_SPACE_ID"] = GENIE_SPACE_ID
 os.environ["LLM_ENDPOINT"] = LLM_ENDPOINT
@@ -66,7 +66,7 @@ resources = [
     DatabricksGenieSpace(genie_space_id=GENIE_SPACE_ID),
 ]
 
-with mlflow.start_run(run_name="bma_cpi_genie_agent") as run:
+with mlflow.start_run(run_name="my_cpi_genie_agent") as run:
     logged_agent = mlflow.pyfunc.log_model(
         artifact_path="agent",
         python_model="agent.py",
@@ -110,7 +110,7 @@ from databricks.sdk.service.serving import (
 )
 
 w = WorkspaceClient()
-ENDPOINT_NAME = "bma-cpi-genie-agent"
+ENDPOINT_NAME = "my-cpi-genie-agent"
 
 try:
     w.serving_endpoints.create_and_wait(

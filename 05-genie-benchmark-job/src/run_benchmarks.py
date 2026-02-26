@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # BMA Genie Benchmark Runner
+# MAGIC # Acme Genie Benchmark Runner
 # MAGIC
 # MAGIC Runs the benchmark question suite against the Genie Space, compares
 # MAGIC results with expected outputs, and writes accuracy metrics to a Delta table.
@@ -24,7 +24,7 @@ from databricks.sdk import WorkspaceClient
 
 # Configuration
 GENIE_SPACE_ID = os.getenv("GENIE_SPACE_ID", "01f11271f3d41201af68388818cca110")
-CATALOG = os.getenv("CATALOG", "bma_pilot")
+CATALOG = os.getenv("CATALOG", "my_catalog")
 SCHEMA = os.getenv("SCHEMA", "genie_ready")
 RESULTS_TABLE = f"{CATALOG}.{SCHEMA}.genie_benchmark_results"
 

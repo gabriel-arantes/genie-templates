@@ -1,5 +1,5 @@
 -- ============================================================================
--- BMA CPI Dashboard — SQL Queries
+-- Acme CPI Dashboard — SQL Queries
 -- These queries power the AI/BI Lakeview Dashboard widgets.
 -- Table: ${catalog}.${schema}.cpi_world_country_aggregates
 -- ============================================================================

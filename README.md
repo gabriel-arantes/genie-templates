@@ -1,7 +1,7 @@
-# BMA Genie Space — Consumption Templates
+# Acme Genie Space — Consumption Templates
 
-Databricks Asset Bundle (DAB) templates for consuming the BMA Genie Space
-(`bma_pilot.genie_ready.cpi_world_country_aggregates`) across multiple surfaces.
+Databricks Asset Bundle (DAB) templates for consuming the Acme Genie Space
+(`my_catalog.genie_ready.cpi_world_country_aggregates`) across multiple surfaces.
 
 ## Templates
 
@@ -17,7 +17,7 @@ Databricks Asset Bundle (DAB) templates for consuming the BMA Genie Space
 ## Prerequisites
 
 - Databricks CLI ≥ 0.250.0
-- A curated Genie Space with `bma_pilot.genie_ready.cpi_world_country_aggregates`
+- A curated Genie Space with `my_catalog.genie_ready.cpi_world_country_aggregates`
 - SQL Pro or Serverless Warehouse
 - Unity Catalog enabled workspace
 - (Templates 01) Azure subscription for Bot Service + Web App
@@ -49,7 +49,7 @@ Every template uses the same set of variables so you configure once:
 |---------------------|-----------------------------------------------|------------------------------------------|
 | `genie_space_id`    | ID of the Genie Space (from URL)              | `01f04abcde1234567890abcd`               |
 | `warehouse_id`                | SQL Warehouse ID (Starter Warehouse)          | `5eb73ca40f08c607`                       |
-| `catalog`           | Unity Catalog catalog                         | `bma_pilot`                              |
+| `catalog`           | Unity Catalog catalog                         | `my_catalog`                              |
 | `schema`            | Unity Catalog schema                          | `genie_ready`                            |
 | `workspace_host`    | Databricks workspace URL                      | `https://adb-1234.5.azuredatabricks.net` |
 

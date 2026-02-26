@@ -1,9 +1,9 @@
-# databricks.yml — BMA LangGraph Agent with Genie as a Tool
+# databricks.yml — Acme LangGraph Agent with Genie as a Tool
 # Deploys a LangGraph-based agent that uses GenieAgent from databricks_langchain
 # to answer questions about CPI data. Logged via MLflow and served on Model Serving.
 
 bundle:
-  name: bma_genie_langgraph_agent
+  name: my_genie_langgraph_agent
 
 variables:
   genie_space_id:
@@ -11,7 +11,7 @@ variables:
     default: "01f11271f3d41201af68388818cca110"
   catalog:
     description: "Unity Catalog catalog"
-    default: "bma_pilot"
+    default: "my_catalog"
   schema:
     description: "Unity Catalog schema for MLflow models"
     default: "genie_ready"

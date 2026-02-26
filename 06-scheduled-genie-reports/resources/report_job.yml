@@ -1,8 +1,8 @@
 # resources/report_job.yml
 resources:
   jobs:
-    bma_genie_weekly_report:
-      name: "[BMA] Genie CPI Weekly Report"
+    my_genie_weekly_report:
+      name: "[Acme] Genie CPI Weekly Report"
       description: >
         Queries the Genie Space with predefined business questions,
         generates an HTML report, and saves it to a UC Volume.

@@ -1,12 +1,12 @@
 # resources/benchmark_job.yml
 resources:
   jobs:
-    bma_genie_benchmark:
-      name: "[BMA] Genie Benchmark — Weekly Quality Check"
+    my_genie_benchmark:
+      name: "[Acme] Genie Benchmark — Weekly Quality Check"
       description: >
         Runs 10 benchmark questions against the CPI Genie Space weekly,
         measures completion rate and response times, and appends results
-        to bma_pilot.genie_ready.genie_benchmark_results for tracking.
+        to my_catalog.genie_ready.genie_benchmark_results for tracking.
       schedule:
         quartz_cron_expression: "0 0 8 ? * MON"  # Every Monday at 8:00 UTC
         timezone_id: "Atlantic/Bermuda"

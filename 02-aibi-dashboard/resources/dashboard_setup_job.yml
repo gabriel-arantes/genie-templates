@@ -1,8 +1,8 @@
 # resources/dashboard_setup_job.yml
 resources:
   jobs:
-    bma_dashboard_setup:
-      name: "[BMA] Setup CPI Dashboard with Ask Genie"
+    my_dashboard_setup:
+      name: "[Acme] Setup CPI Dashboard with Ask Genie"
       description: "Creates and publishes the AI/BI Lakeview Dashboard for CPI data with Ask Genie enabled."
       tasks:
         - task_key: create_dashboard

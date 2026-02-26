@@ -1,13 +1,13 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # BMA CPI Dashboard — Setup & Configuration
+# MAGIC # Acme CPI Dashboard — Setup & Configuration
 # MAGIC
 # MAGIC This notebook creates an AI/BI Lakeview Dashboard with:
 # MAGIC - CPI index levels, YoY inflation trends, and regional comparisons
 # MAGIC - **Ask Genie** enabled so users can ask follow-up questions in natural language
 # MAGIC
 # MAGIC ## Prerequisites
-# MAGIC - Genie Space configured with `bma_pilot.genie_ready.cpi_world_country_aggregates`
+# MAGIC - Genie Space configured with `my_catalog.genie_ready.cpi_world_country_aggregates`
 # MAGIC - SQL Warehouse (Starter or Pro)
 
 # COMMAND ----------
@@ -18,14 +18,14 @@
 # COMMAND ----------
 
 # Configurable parameters — update these for your environment
-CATALOG = "bma_pilot"
+CATALOG = "my_catalog"
 SCHEMA = "genie_ready"
 TABLE = "cpi_world_country_aggregates"
 WAREHOUSE_ID = "5eb73ca40f08c607"                # SQL Warehouse for the dashboard
 GENIE_SPACE_ID = "01f11271f3d41201af68388818cca110"  # Genie Space ID
 
-DASHBOARD_NAME = "BMA — CPI World Regional Aggregates"
-DASHBOARD_PARENT_PATH = "/Shared/bma-dashboards"
+DASHBOARD_NAME = "Acme — CPI World Regional Aggregates"
+DASHBOARD_PARENT_PATH = "/Shared/my-dashboards"
 FQN = f"{CATALOG}.{SCHEMA}.{TABLE}"
 
 # COMMAND ----------

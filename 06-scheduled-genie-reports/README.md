@@ -8,7 +8,7 @@ and generates a polished HTML report saved to a Unity Catalog Volume.
 1. Asks 5 business questions to the Genie Space (configurable)
 2. Collects text responses, SQL, and query results
 3. Renders an HTML report with tables and expandable SQL
-4. Saves to `/Volumes/bma_pilot/genie_ready/reports/`
+4. Saves to `/Volumes/my_catalog/genie_ready/reports/`
 5. Sends email notification on completion
 
 ## Report Sections
@@ -23,7 +23,7 @@ and generates a polished HTML report saved to a Unity Catalog Volume.
 
 ```bash
 databricks bundle deploy
-databricks bundle run bma_genie_weekly_report  # manual trigger
+databricks bundle run my_genie_weekly_report  # manual trigger
 ```
 
 ## Customization

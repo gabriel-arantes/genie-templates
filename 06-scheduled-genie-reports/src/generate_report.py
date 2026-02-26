@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # BMA CPI Weekly Report via Genie
+# MAGIC # Acme CPI Weekly Report via Genie
 # MAGIC
 # MAGIC This job asks Genie a set of predefined business questions,
 # MAGIC collects the responses (text + data), and generates an HTML report
@@ -26,7 +26,7 @@ from databricks.sdk import WorkspaceClient
 
 # Configuration
 GENIE_SPACE_ID = os.getenv("GENIE_SPACE_ID", "01f11271f3d41201af68388818cca110")
-CATALOG = os.getenv("CATALOG", "bma_pilot")
+CATALOG = os.getenv("CATALOG", "my_catalog")
 SCHEMA = os.getenv("SCHEMA", "genie_ready")
 VOLUME = "reports"
 VOLUME_PATH = f"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}"
@@ -158,7 +158,7 @@ REPORT_TEMPLATE = Template("""
 <html>
 <head>
 <meta charset="utf-8">
-<title>BMA CPI Weekly Report — {{ report_date }}</title>
+<title>Acme CPI Weekly Report — {{ report_date }}</title>
 <style>
   body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 900px; margin: 40px auto; color: #333; }
   h1 { color: #1a365d; border-bottom: 3px solid #2b6cb0; padding-bottom: 10px; }
@@ -177,7 +177,7 @@ REPORT_TEMPLATE = Template("""
 </style>
 </head>
 <body>
-<h1>🏛️ BMA CPI Weekly Report</h1>
+<h1>🏛️ Acme CPI Weekly Report</h1>
 <p><strong>Date:</strong> {{ report_date }} | <strong>Source:</strong> Databricks Genie Space</p>
 
 {% for section in sections %}
@@ -200,7 +200,7 @@ REPORT_TEMPLATE = Template("""
 {% endfor %}
 
 <div class="footer">
-  Generated automatically by the BMA Genie Scheduled Reports job.<br>
+  Generated automatically by the Acme Genie Scheduled Reports job.<br>
   Powered by Databricks AI/BI Genie Space.
 </div>
 </body>
@@ -219,7 +219,7 @@ html_report = REPORT_TEMPLATE.render(
 
 # COMMAND ----------
 
-report_filename = f"bma_cpi_report_{report_date}.html"
+report_filename = f"my_cpi_report_{report_date}.html"
 report_path = f"{VOLUME_PATH}/{report_filename}"
 
 dbutils.fs.put(report_path.replace("/Volumes/", "dbfs:/Volumes/"), html_report, overwrite=True)

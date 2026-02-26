@@ -1,9 +1,9 @@
-# databricks.yml — BMA Scheduled Genie Reports
+# databricks.yml — Acme Scheduled Genie Reports
 # Cron job that asks Genie predefined questions, formats the answers
 # into an HTML report, and emails it to stakeholders.
 
 bundle:
-  name: bma_genie_scheduled_reports
+  name: my_genie_scheduled_reports
 
 variables:
   genie_space_id:
@@ -11,13 +11,13 @@ variables:
     default: "01f11271f3d41201af68388818cca110"
   catalog:
     description: "Unity Catalog catalog"
-    default: "bma_pilot"
+    default: "my_catalog"
   schema:
     description: "Unity Catalog schema"
     default: "genie_ready"
   report_recipients:
     description: "Comma-separated email addresses for report delivery"
-    default: "analyst@bma.bm"
+    default: "analyst@acme.com"
   warehouse_id:
     description: "SQL Warehouse ID"
     default: "5eb73ca40f08c607"

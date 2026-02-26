@@ -24,7 +24,7 @@ User (any client) → Model Serving Endpoint → LangGraph Agent
 ```bash
 databricks bundle validate
 databricks bundle deploy
-databricks bundle run bma_agent_deploy
+databricks bundle run my_agent_deploy
 ```
 
 ## Extending the Agent
@@ -35,8 +35,8 @@ To add more tools (e.g., a RAG retriever for unstructured documents):
 from databricks_langchain import VectorSearchRetrieverTool
 
 rag_tool = VectorSearchRetrieverTool(
-    index_name="bma_pilot.genie_ready.doc_index",
-    description="Search BMA regulatory documents"
+    index_name="my_catalog.genie_ready.doc_index",
+    description="Search Acme regulatory documents"
 )
 
 tools = [genie_agent, rag_tool]  # agent now routes between both

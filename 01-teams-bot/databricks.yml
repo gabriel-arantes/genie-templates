@@ -1,10 +1,10 @@
-# databricks.yml — BMA Genie Teams Bot
+# databricks.yml — Acme Genie Teams Bot
 # This bundle packages the bot code for deployment to Azure Web App.
 # The DAB manages the Databricks-side config; Azure infra is handled
 # separately (see src/infra/ for Terraform or manual steps in README).
 
 bundle:
-  name: bma_genie_teams_bot
+  name: my_genie_teams_bot
 
 variables:
   genie_space_id:

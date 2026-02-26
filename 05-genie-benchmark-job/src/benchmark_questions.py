@@ -1,4 +1,4 @@
-# benchmark_questions.py — Benchmark suite for the BMA CPI Genie Space.
+# benchmark_questions.py — Benchmark suite for the Acme CPI Genie Space.
 #
 # Each question has:
 #   - id: unique identifier
@@ -7,7 +7,7 @@
 #   - validation_query: SQL that validates the Genie result independently
 #   - category: grouping for reporting
 
-CATALOG = "bma_pilot"
+CATALOG = "my_catalog"
 SCHEMA = "genie_ready"
 TABLE = "cpi_world_country_aggregates"
 FQN = f"{CATALOG}.{SCHEMA}.{TABLE}"

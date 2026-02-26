@@ -26,7 +26,7 @@ from genie_client import GenieClient, GenieResult
 # Logging
 # ---------------------------------------------------------------------------
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("bma-genie-bot")
+logger = logging.getLogger("my-genie-bot")
 
 # ---------------------------------------------------------------------------
 # Bot Framework configuration (from Azure Bot Service)
@@ -160,7 +160,7 @@ async def messages(req: web.Request) -> web.Response:
 
 
 async def health(req: web.Request) -> web.Response:
-    return web.json_response({"status": "healthy", "service": "bma-genie-teams-bot"})
+    return web.json_response({"status": "healthy", "service": "my-genie-teams-bot"})
 
 
 app = web.Application()
@@ -169,5 +169,5 @@ app.router.add_get("/health", health)
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", "3978"))
-    logger.info(f"Starting BMA Genie Teams Bot on port {port}")
+    logger.info(f"Starting Acme Genie Teams Bot on port {port}")
     web.run_app(app, host="0.0.0.0", port=port)

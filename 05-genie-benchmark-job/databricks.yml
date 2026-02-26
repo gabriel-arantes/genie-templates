@@ -1,9 +1,9 @@
-# databricks.yml — BMA Genie Benchmark Job
+# databricks.yml — Acme Genie Benchmark Job
 # Scheduled job that runs benchmark questions against the Genie Space,
 # evaluates accuracy, and writes results to a Unity Catalog table.
 
 bundle:
-  name: bma_genie_benchmark
+  name: my_genie_benchmark
 
 variables:
   genie_space_id:
@@ -11,7 +11,7 @@ variables:
     default: "01f11271f3d41201af68388818cca110"
   catalog:
     description: "Unity Catalog catalog"
-    default: "bma_pilot"
+    default: "my_catalog"
   schema:
     description: "Unity Catalog schema"
     default: "genie_ready"

@@ -1,7 +1,7 @@
 # 01 — Teams Bot (Genie Conversation API)
 
 Microsoft Teams bot that lets users ask natural-language questions against the
-BMA Genie Space directly from any Teams channel or chat.
+Acme Genie Space directly from any Teams channel or chat.
 
 ## Architecture
 

@@ -15,7 +15,7 @@ enabled for ad-hoc natural-language follow-up questions.
 ```bash
 databricks bundle validate
 databricks bundle deploy
-databricks bundle run bma_dashboard_setup
+databricks bundle run my_dashboard_setup
 ```
 
 After the job runs, open the dashboard URL printed in the output to:

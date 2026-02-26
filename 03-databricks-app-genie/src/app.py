@@ -1,5 +1,5 @@
 """
-app.py — Databricks App: BMA CPI Explorer powered by Genie.
+app.py — Databricks App: Acme CPI Explorer powered by Genie.
 
 A Gradio-based web application deployed as a Databricks App that uses
 the Genie Space as a resource to let users:
@@ -22,7 +22,7 @@ import plotly.graph_objects as go
 from databricks.sdk import WorkspaceClient
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("bma-genie-app")
+logger = logging.getLogger("my-genie-app")
 
 # ---------------------------------------------------------------------------
 # Databricks SDK — initialized with the app's service principal
@@ -361,7 +361,7 @@ def reset_conversation():
 
 # Build the Gradio interface
 with gr.Blocks(
-    title="BMA CPI Explorer — Genie",
+    title="Acme CPI Explorer — Genie",
     theme=gr.themes.Default(
         primary_hue=gr.themes.colors.sky,
         neutral_hue=gr.themes.colors.slate,
@@ -376,7 +376,7 @@ with gr.Blocks(
     # ── Header ──
     gr.HTML("""
     <div class="app-header">
-        <h1>🧞 BMA CPI Explorer</h1>
+        <h1>🧞 Acme CPI Explorer</h1>
         <p>
             Ask questions about <span class="accent">Consumer Price Index</span> data
             in natural language — powered by Databricks AI/BI Genie
@@ -468,7 +468,7 @@ with gr.Blocks(
     # ── Footer ──
     gr.HTML("""
     <div style="text-align: center; padding: 16px 0 4px; color: #475569; font-size: 0.78rem;">
-        BMA Genie Templates · Powered by Databricks AI/BI Genie
+        Acme Genie Templates · Powered by Databricks AI/BI Genie
     </div>
     """)
 

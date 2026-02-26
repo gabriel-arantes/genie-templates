@@ -1,9 +1,9 @@
-# databricks.yml — BMA Genie Databricks App (Gradio)
+# databricks.yml — Acme Genie Databricks App (Gradio)
 # Deploys a Databricks App with Genie Space as a resource.
 # The app provides a chat interface + data table + chart visualization.
 
 bundle:
-  name: bma_genie_app
+  name: my_genie_app
 
 variables:
   genie_space_id:
@@ -18,15 +18,15 @@ variables:
 
 resources:
   apps:
-    bma_genie_app:
-      name: "bma-genie-cpi-explorer"
+    my_genie_app:
+      name: "my-genie-cpi-explorer"
       description: "CPI Data Explorer powered by Databricks Genie"
       source_code_path: ./src
       resources:
         - name: genie-space
           genie_space:
             space_id: ${var.genie_space_id}
-            name: "BMA CPI Genie Space"
+            name: "Acme CPI Genie Space"
             permission: CAN_MANAGE
         - name: sql-warehouse
           sql_warehouse:

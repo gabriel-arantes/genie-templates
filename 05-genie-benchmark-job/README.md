@@ -12,7 +12,7 @@ Delta table for longitudinal quality tracking.
 
 ## Output Table
 
-`bma_pilot.genie_ready.genie_benchmark_results`
+`my_catalog.genie_ready.genie_benchmark_results`
 
 | Column                | Type     |
 |-----------------------|----------|
@@ -30,7 +30,7 @@ Delta table for longitudinal quality tracking.
 
 ```bash
 databricks bundle deploy
-databricks bundle run bma_genie_benchmark  # manual trigger
+databricks bundle run my_genie_benchmark  # manual trigger
 ```
 
 The job also runs automatically every Monday at 8 AM (Atlantic/Bermuda timezone).

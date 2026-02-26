@@ -1,9 +1,9 @@
-# databricks.yml — BMA AI/BI Dashboard with Ask Genie
+# databricks.yml — Acme AI/BI Dashboard with Ask Genie
 # Deploys a Lakeview Dashboard that visualizes CPI data and enables
 # Ask Genie for ad-hoc natural-language follow-up questions.
 
 bundle:
-  name: bma_genie_aibi_dashboard
+  name: my_genie_aibi_dashboard
 
 variables:
   genie_space_id:
@@ -14,7 +14,7 @@ variables:
     default: "5eb73ca40f08c607"
   catalog:
     description: "Unity Catalog catalog name"
-    default: "bma_pilot"
+    default: "my_catalog"
   schema:
     description: "Unity Catalog schema name"
     default: "genie_ready"
