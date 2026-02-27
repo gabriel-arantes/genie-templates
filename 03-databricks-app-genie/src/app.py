@@ -392,46 +392,47 @@ with gr.Blocks(
             suggestion_btns.append(btn)
 
     # ── Main layout ──
+    # Chat Area
+    chatbot = gr.Chatbot(
+        label="Conversation",
+        type="messages",
+        height=550,
+        show_copy_button=True,
+        elem_classes="chatbot-container",
+    )
     with gr.Row():
-        # Left: Chat
-        with gr.Column(scale=3):
-            chatbot = gr.Chatbot(
-                label="Conversation",
-                type="messages",
-                height=420,
-                show_copy_button=True,
-                elem_classes="chatbot-container",
-            )
-            with gr.Row():
-                question_input = gr.Textbox(
-                    placeholder="Ask a question about CPI data...",
-                    label="Your question",
-                    scale=5,
-                    container=False,
-                )
-                send_btn = gr.Button(
-                    "Ask Genie ✨", variant="primary", scale=1,
-                    elem_classes="primary-btn",
-                )
-                reset_btn = gr.Button(
-                    "🗑️ Clear", scale=1,
-                    elem_classes="reset-btn",
-                )
+        question_input = gr.Textbox(
+            placeholder="Ask a question about CPI data...",
+            label="Your question",
+            scale=5,
+            container=False,
+        )
+        send_btn = gr.Button(
+            "Ask Genie ✨", variant="primary", scale=1,
+            elem_classes="primary-btn",
+        )
+        reset_btn = gr.Button(
+            "🗑️ Clear", scale=1,
+            elem_classes="reset-btn",
+        )
 
-        # Right: SQL + Results
-        with gr.Column(scale=2):
-            with gr.Accordion("📝 Generated SQL", open=False, elem_classes="sql-accordion"):
+    # Technical Details Area
+    with gr.Accordion("🔍 View Analysis Details (SQL, Data & Charts)", open=False, elem_classes="details-accordion"):
+        with gr.Tabs():
+            with gr.TabItem("📈 Visualization"):
+                chart_output = gr.Plot(label="Visualization", elem_classes="chart-plot")
+            with gr.TabItem("📋 Query Results"):
+                data_table = gr.Dataframe(
+                    label="Query Results",
+                    interactive=False,
+                    wrap=True,
+                )
+            with gr.TabItem("📝 Generated SQL"):
                 sql_output = gr.Code(
                     label="SQL",
                     language="sql",
-                    lines=8,
+                    lines=12,
                 )
-            chart_output = gr.Plot(label="📈 Visualization")
-            data_table = gr.Dataframe(
-                label="📋 Query Results",
-                interactive=False,
-                wrap=True,
-            )
 
     # ── Event handlers ──
     outputs = [chatbot, sql_output, data_table, chart_output, conv_state]

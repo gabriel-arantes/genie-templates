@@ -51,7 +51,7 @@ Every template uses the same set of variables so you configure once:
 | `warehouse_id`                | SQL Warehouse ID (Starter Warehouse)          | `5eb73ca40f08c607`                       |
 | `catalog`           | Unity Catalog catalog                         | `my_catalog`                              |
 | `schema`            | Unity Catalog schema                          | `genie_ready`                            |
-| `workspace_host`    | Databricks workspace URL                      | `https://adb-1234.5.azuredatabricks.net` |
+| `workspace_host`    | Databricks workspace URL                      | `https://dbc-7749e812-1ece.cloud.databricks.com/` |
 
 ## Replication to Client Environment
 
