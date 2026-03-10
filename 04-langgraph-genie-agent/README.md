@@ -21,11 +21,26 @@ User (any client) → Model Serving Endpoint → LangGraph Agent
 
 ## Deploy
 
+Uses **Automatic Authentication Passthrough** — all dependent resources
+(Genie Space, LLM endpoint, SQL Warehouse, tables) are declared during
+`mlflow.pyfunc.log_model()`, and Databricks auto-provisions a service
+principal with the necessary permissions.
+
 ```bash
-databricks bundle validate
-databricks bundle deploy
-databricks bundle run my_agent_deploy
+# Validate and deploy the bundle
+databricks bundle validate -p <profile>
+databricks bundle deploy -p <profile>
+
+# Run the log & deploy job
+databricks bundle run my_agent_deploy -p <profile>
 ```
+
+The `log_and_deploy.py` notebook will:
+1. Test the agent locally
+2. Log it to MLflow with resource declarations
+3. Register it in Unity Catalog
+4. Deploy it via `databricks.agents.deploy()`
+5. Wait for the endpoint and run a test query
 
 ## Extending the Agent
 
@@ -39,11 +54,11 @@ rag_tool = VectorSearchRetrieverTool(
     description="Search Acme regulatory documents"
 )
 
-tools = [genie_agent, rag_tool]  # agent now routes between both
+tools = [cpi_data_tool, rag_tool]  # agent now routes between both
 ```
 
 ## References
 
 - [databricks_langchain.genie.GenieAgent](https://api-docs.databricks.com/python/databricks-ai-bridge/latest/databricks_langchain.html)
-- [Tutorial: Build a retrieval agent](https://docs.databricks.com/aws/en/generative-ai/tutorials/agent-framework-notebook)
+- [Authentication for AI agents (Model Serving)](https://docs.databricks.com/aws/en/generative-ai/agent-framework/agent-authentication-model-serving)
 - [Multi-agent with Genie (Databricks Blog)](https://www.databricks.com/blog/genie-conversation-apis-public-preview)

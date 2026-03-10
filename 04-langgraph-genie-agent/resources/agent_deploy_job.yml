@@ -6,5 +6,6 @@ resources:
       description: "Logs the LangGraph agent to MLflow, registers in UC, and deploys to Model Serving."
       tasks:
         - task_key: log_and_deploy
+          max_retries: 0
           notebook_task:
             notebook_path: ../src/log_and_deploy.py

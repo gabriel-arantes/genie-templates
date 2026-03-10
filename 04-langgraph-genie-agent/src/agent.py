@@ -19,8 +19,6 @@ from langchain_core.language_models import LanguageModelLike
 from langchain_core.runnables import RunnableConfig, RunnableLambda
 from langchain_core.tools import BaseTool
 from langgraph.graph import END, StateGraph
-from langgraph.graph.graph import CompiledGraph
-from langgraph.prebuilt.tool_executor import ToolExecutor
 from mlflow.langchain.chat_agent_langgraph import ChatAgentState, ChatAgentToolNode
 
 from databricks_langchain import ChatDatabricks
@@ -43,24 +41,41 @@ llm = ChatDatabricks(
     max_tokens=2048,
 )
 
-# ---------------------------------------------------------------------------
-# Genie Agent as a Tool
-# ---------------------------------------------------------------------------
-genie_agent = GenieAgent(
-    genie_space_id=GENIE_SPACE_ID,
-    genie_agent_name="CPI_Data_Analyst",
-    description=(
-        "Specializes in analyzing Consumer Price Index (CPI) data across world "
-        "countries. Use this tool for questions about CPI values, trends, "
-        "comparisons between countries, year-over-year changes, rankings, "
-        "and any structured data query about inflation indicators. "
-        "The underlying data covers CPI World Country Aggregates with columns: "
-        "country_name, country_code, indicator_name, year, value."
-    ),
-)
+from langchain_core.tools import tool
+
+@tool("CPI_Data_Analyst", return_direct=False)
+def cpi_data_tool(query: str) -> str:
+    """
+    Specializes in analyzing Consumer Price Index (CPI) data across world
+    regions and economies. Use this tool for questions about CPI index values,
+    inflation trends, comparisons between regions/economies, year-over-year
+    changes, rankings, and any structured data query about CPI indicators.
+    The underlying data is monthly CPI World Country Aggregates with columns:
+    series_code, series_name, country_code, index_type, coicop_category,
+    transformation_type, transformation_label, frequency, unit, period,
+    year, month, cpi_value.
+    """
+    # GenieAgent is instantiated at query time (not at module load) so that
+    # the auto-provisioned service principal credentials are available.
+    try:
+        genie_agent = GenieAgent(
+            genie_space_id=GENIE_SPACE_ID,
+            genie_agent_name="CPI_Data_Analyst",
+            description=(
+                "Analyzes Consumer Price Index (CPI) data across world regions. "
+                "Monthly data with columns: series_code, series_name, country_code, "
+                "index_type, coicop_category, transformation_type, transformation_label, "
+                "frequency, unit, period, year, month, cpi_value."
+            ),
+        )
+    except Exception as e:
+        return f"Error initializing Genie space: {e}"
+
+    response = genie_agent.invoke({"messages": [{"role": "user", "content": query}]})
+    return response["messages"][0].content
 
 # Additional tools can be added here (e.g., VectorSearchRetrieverTool for unstructured data)
-tools = [genie_agent]
+tools = [cpi_data_tool]
 
 # ---------------------------------------------------------------------------
 # LangGraph Agent Builder
@@ -68,9 +83,9 @@ tools = [genie_agent]
 
 def create_tool_calling_agent(
     model: LanguageModelLike,
-    tools: Union[ToolExecutor, Sequence[BaseTool]],
+    tools: Sequence[BaseTool],
     agent_prompt: Optional[str] = None,
-) -> CompiledGraph:
+):
     """Create a LangGraph agent that uses tools via function-calling."""
     model = model.bind_tools(tools)
 
@@ -108,7 +123,7 @@ def create_tool_calling_agent(
 # System prompt
 # ---------------------------------------------------------------------------
 SYSTEM_PROMPT = """You are a data analyst assistant for the Acme Corp.
-You help users explore Consumer Price Index (CPI) data from countries around the world.
+You help users explore Consumer Price Index (CPI) data from economies and regions around the world.
 
 When users ask about CPI data, trends, comparisons, or rankings, use the CPI_Data_Analyst
 tool to query the Genie Space. Always present the results clearly and provide insights.
@@ -118,19 +133,61 @@ and suggest the user rephrase their question in terms of CPI or inflation data.
 
 Key data characteristics:
 - Table: my_catalog.genie_ready.cpi_world_country_aggregates
-- Columns: country_name, country_code, indicator_name, year, value
-- The 'value' column represents the CPI index value
-- Data covers multiple countries and years
+- Columns: series_code, series_name, country_code, index_type, coicop_category,
+  transformation_type, transformation_label, frequency, unit, period, year, month, cpi_value
+- The 'cpi_value' column is the CPI index value (base index ~100)
+- 'series_name' identifies the economy/region (e.g. "Advanced Economies", "United States")
+- Data is monthly, spanning from 2011 onwards
+- 'coicop_category' indicates the item category (e.g. "All Items", "Food", "Energy")
 """
 
 # ---------------------------------------------------------------------------
 # Build the agent
 # ---------------------------------------------------------------------------
-agent = create_tool_calling_agent(
+langgraph_agent = create_tool_calling_agent(
     model=llm,
     tools=tools,
     agent_prompt=SYSTEM_PROMPT,
 )
 
+from typing import Any, Generator
+from mlflow.pyfunc import ChatAgent
+from mlflow.types.agent import ChatAgentChunk, ChatAgentMessage, ChatAgentResponse, ChatContext
+
+class LangGraphChatAgent(ChatAgent):
+    def __init__(self, agent):
+        self.agent = agent
+
+    def predict(
+        self,
+        messages: list[ChatAgentMessage],
+        context: Optional[ChatContext] = None,
+        custom_inputs: Optional[dict[str, Any]] = None,
+    ) -> ChatAgentResponse:
+        request = {"messages": self._convert_messages_to_dict(messages)}
+        out_msgs = []
+        for event in self.agent.stream(request, stream_mode="updates"):
+            for node_data in event.values():
+                out_msgs.extend(
+                    ChatAgentMessage(**msg) for msg in node_data.get("messages", [])
+                )
+        return ChatAgentResponse(messages=out_msgs)
+
+    def predict_stream(
+        self,
+        messages: list[ChatAgentMessage],
+        context: Optional[ChatContext] = None,
+        custom_inputs: Optional[dict[str, Any]] = None,
+    ) -> Generator[ChatAgentChunk, None, None]:
+        request = {"messages": self._convert_messages_to_dict(messages)}
+        for event in self.agent.stream(request, stream_mode="updates"):
+            for node_data in event.values():
+                yield from (
+                    ChatAgentChunk(**{"delta": msg}) for msg in node_data.get("messages", [])
+                )
+
+chat_agent = LangGraphChatAgent(langgraph_agent)
+
 # Enable MLflow tracing
 mlflow.langchain.autolog()
+mlflow.models.set_model(chat_agent)
